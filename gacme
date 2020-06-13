@@ -2,8 +2,9 @@
 # a gemini client written for acme
 # i would use rc but i'm more comfortable with standard bourne shell script
 
-url=${1#gemini://}
-url=${url%%/*}
+foo=${1#gemini://}
+domain=${foo%%/*}
+path=${foo#/}
 
 # BUG: this client will only connect to port 1965.
 #  should be fine for most servers, but it should be fixed somehow
@@ -15,14 +16,14 @@ get() {
 	                 -connect $1:$2 -servername $1
 }
 
-echo $1 | get $url $port | \
-tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
+echo $1 | get $domain $port | \
+9 awk -F ' ' -v "hostname=$url" -v "path=$path" '
 	# trying to turn any partial url into a fully qualified gemini url
 	function parse_url(url) {
 		if (index(url, "/") == 1) {
 			return "gemini://" hostname url
 		} else if (index(url, "://") == 0) {
-			return "gemini://" hostname "/" url
+			return "gemini://" hostname path url
 		} else {
 			return url
 		}
@@ -53,6 +54,6 @@ tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
 	}
 
 	# print the rest of the lines without any special formatting
-	# not sure if we need this line but it's here just incase
+	# not sure if we need this line but its here just incase
 	{ print($0) }
 ' | displayonacme $1
