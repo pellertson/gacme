@@ -7,8 +7,10 @@ than an editor.
 [Gemini](gopher://gemini.circumlunar.space) is an alternative to gopher
 and the web, taking the best of both and putting it into one protocol.
 
-None of the existing gemini clients out there are good enough for me to
-want to use daily, so I am making my own.
+Using acme is fun.  And as much as I like using the mouse, I couldn't
+stand the extra dependencies some of the graphical clients out there
+for gemini (at the risk of soundign cliche, it's not you, it's me).
+So I wrote my own for acme.
 
 This just uses standard POSIX tools and programs that were installed
 by plan9port, so that makes the latter the only requirement.
