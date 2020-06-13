@@ -1,7 +1,6 @@
 #!/bin/sh
 # a gemini client written for acme
 # i would use rc but i'm more comfortable with standard bourne shell script
-set -e
 
 url=${1#gemini://}
 url=${url%/}
@@ -16,4 +15,36 @@ get() {
 	                 -connect $1:$2 -servername $1
 }
 
-echo $1 | get $url $port | ssam 'x/^\*/c/•/' | displayonacme $1
+echo $1 | get $url $port | \
+tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
+	function parse_url(url) {
+		if (index(url, "/") != 1) {
+			return url
+		} else {
+			return "gemini://" hostname url
+		}
+	}
+
+	/^=>/ {
+		str = "=>"
+		if ($1 == str) {
+			$1 = ""
+			url = parse_url($2)
+			$2 = ""
+		} else {
+			sub(/=>/, "")
+			url = parse_url($1)
+			$1 = ""
+		}
+
+		printf("%s\n=>\t%s\n", $0, url)
+		next
+	}
+
+	/^\* / {
+		sub(/\*/, "•")
+		print
+		next
+	}
+	{ print($0) }
+' | displayonacme $1
