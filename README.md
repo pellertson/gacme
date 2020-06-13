@@ -30,6 +30,9 @@ data matches '^gemini://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#
 plumb to web
 plumb start gacme $0
 ```
+## LICENSE
+
+Licenced under the GNU GPL v3+
 
 ## TODO
 
