@@ -10,8 +10,6 @@ url=${url%%/*}
 port=1965
 
 get() {
-	echo "Hostname: $1"
-	echo "Port: $2"
 	openssl s_client -crlf -quiet \
 	                 -no_ssl3 -no_tls1 -no_tls1_1 \
 	                 -connect $1:$2 -servername $1
@@ -22,7 +20,7 @@ tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
 	function parse_url(url) {
 		if (index(url, "/") == 1) {
 			return "gemini://" hostname url
-		} else if (index(url, "gemini://") == 0) {
+		} else if (index(url, "://") == 0) {
 			return "gemini://" hostname "/" url
 		} else {
 			return url
