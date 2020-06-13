@@ -3,13 +3,15 @@
 # i would use rc but i'm more comfortable with standard bourne shell script
 
 url=${1#gemini://}
-url=${url%/}
+url=${url%%/*}
 
 # BUG: this client will only connect to port 1965.
 #  should be fine for most servers, but it should be fixed somehow
 port=1965
 
 get() {
+	echo "Hostname: $1"
+	echo "Port: $2"
 	openssl s_client -crlf -quiet \
 	                 -no_ssl3 -no_tls1 -no_tls1_1 \
 	                 -connect $1:$2 -servername $1
