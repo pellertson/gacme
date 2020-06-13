@@ -36,6 +36,9 @@ Licenced under the GNU GPL v3+
 ## TODO
 
 * do proper TOFU authentication
-* figure out plumbing rules for clicking on links
 * publishing your own certs for servers that use them
 * see about writing this in an actual programming language, possibly go
+
+## BUGS
+* go to `gemini://gemini.conman.org/` to see this, but for some reason my home directory gets printed out on the page...
+	* probably to do with not handling text/gemini and text/plain differently
