@@ -20,6 +20,15 @@ them into your `$PATH`.
 
 The url is `git://dome.circumlunar.space/~parker/gacme.git`
 
+Finally, add the following to your plumber rules:
+
+```
+type is text
+data matches '^gemini://[a-zA-Z0-9_@\-]+([.:][a-zA-Z0-9_@\-]+)*/?[a-zA-Z0-9_?,%#~&/\-+=]+([:.][a-zA-Z0-9_?,%#~&/\-+=]+)*'
+plumb to web
+plumb start gacme $0
+```
+
 ## TODO
 
 * do proper TOFU authentication
