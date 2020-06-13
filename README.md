@@ -42,3 +42,4 @@ Licenced under the GNU GPL v3+
 ## BUGS
 * go to `gemini://gemini.conman.org/` to see this, but for some reason my home directory gets printed out on the page...
 	* probably to do with not handling text/gemini and text/plain differently
+* for the love of God, just go through the torture test
