@@ -18,10 +18,12 @@ get() {
 echo $1 | get $url $port | \
 tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
 	function parse_url(url) {
-		if (index(url, "/") != 1) {
-			return url
-		} else {
+		if (index(url, "/") == 1) {
 			return "gemini://" hostname url
+		} else if (index(url, "gemini://") == 0) {
+			return "gemini://" hostname "/" url
+		} else {
+			return url
 		}
 	}
 
