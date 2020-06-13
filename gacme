@@ -17,6 +17,7 @@ get() {
 
 echo $1 | get $url $port | \
 tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
+	# trying to turn any partial url into a fully qualified gemini url
 	function parse_url(url) {
 		if (index(url, "/") == 1) {
 			return "gemini://" hostname url
@@ -27,6 +28,7 @@ tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
 		}
 	}
 
+	# format the link lines to look a little bit nicer
 	/^=>/ {
 		str = "=>"
 		if ($1 == str) {
@@ -43,10 +45,14 @@ tr [:blank:] ' ' | 9 awk -F ' ' -v "hostname=$url" '
 		next
 	}
 
+	# make nice bullet points
 	/^\* / {
 		sub(/\*/, "•")
 		print
 		next
 	}
+
+	# print the rest of the lines without any special formatting
+	# not sure if we need this line but it's here just incase
 	{ print($0) }
 ' | displayonacme $1
