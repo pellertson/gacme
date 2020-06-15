@@ -17,7 +17,7 @@ get() {
 }
 
 echo $1 | get $domain $port | \
-9 awk -F ' ' -v "hostname=$url" -v "path=$path" '
+9 awk -F ' ' -v "hostname=$domain" -v "path=$path" '
 	# trying to turn any partial url into a fully qualified gemini url
 	function parse_url(url) {
 		if (index(url, "/") == 1) {
