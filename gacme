@@ -22,8 +22,12 @@ echo $1 | get $domain $port | \
 	function parse_url(url) {
 		if (index(url, "/") == 1) {
 			return "gemini://" hostname url
+		# TODO: fix bug involving this following if branch
+		# this only works if the current url we're on is a "directory"
+		# or more simply, it ends with a "/"
+		# see gemini://gemini.conman.org/test/torture/0006
 		} else if (index(url, "://") == 0) {
-			return "gemini://" hostname path url
+			return "gemini://" path url
 		} else {
 			return url
 		}
