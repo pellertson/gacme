@@ -4,6 +4,7 @@
 . $PLAN9/lib/acme.rc
 fullResponse=`{mktemp}
 
+
 # echo $response | winwrite body
 
 fn die {
@@ -16,14 +17,14 @@ fn get {
 }
 
 fn parseResponse {
-	cat $fullResponse
+	9 awk -f /usr/local/lib/parseResponse.awk $fullResponse
 }
 
 
 newwindow
 winname $1
 
-{echo $1 | get $2 1965 > $fullResponse} || die
+echo $1 | get $2 1965 > $fullResponse
 parseResponse | winwrite body
 
 winctl 'clean'
