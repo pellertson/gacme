@@ -2,12 +2,33 @@
 # a gemini client written for acme
 
 . $PLAN9/lib/acme.rc
+fullResponse=`{mktemp}
 
-newwindow
-winctl 'name '^$1
+# echo $response | winwrite body
+
+fn die {
+	rm $fullResponse
+	exit 1
+}
 
 fn get {
 	openssl s_client -crlf -quiet -no_ssl3 -no_tls1 -no_tls1_1 -connect $1:$2 -servername $1
 }
 
+fn parseResponse {
+	cat $fullResponse
+}
 
+
+newwindow
+winname $1
+
+{echo $1 | get $2 1965 > $fullResponse} || die
+parseResponse | winwrite body
+
+winctl 'clean'
+printf '0,0' | winwrite addr
+winctl 'dot=addr'
+winctl 'show'
+
+rm $fullResponse
