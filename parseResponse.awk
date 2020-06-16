@@ -1,52 +1,43 @@
 BEGIN {
-	FS=" "
+	FS = " "
+	mono = 0
+	print hostname
+	print path
 }
-# trying to turn any partial url into a fully qualified gemini url
-function parse_url(url) {
-	if (index(url, "/") == 1) {
-		return "gemini://" hostname url
-	# TODO: fix bug involving this following if branch
-	# this only works if the current url we're on is a "directory"
-	# or more simply, it ends with a "/"
-	# see gemini://gemini.conman.org/test/torture/0006
-	} else if (index(url, "://") == 0) {
-		return "gemini://" path url
-	} else {
-		return url
-	}
-}
-
-function find_last_slash(path) {
-	for (i = length(path); i > 0; i--) {
-		if (path[i] == "/") {
-			return i + 0
-		}
+# trying to turn any partial link into a fully qualified gemini link
+function parse_link(link) {
+	if (link ~ /^gemini:\/\/.*/) {
+		return link
+	} else if (link ~ /^\/\/.*.[a-zA-Z]\/.*/) {
+		return "gemini:" link
+	} else if (link ~ /^\/.*/) {
+		return "gemini://" hostname link
 	}
 }
 
 # format the link lines to look a little bit nicer
 /^=>/ {
 	str = "=>"
-	if (mono == 1) {
+	if (mono) {
 		print
 	} else {
 		if ($1 == str) {
 			$1 = ""
-			url = parse_url($2)
+			link = parse_link($2)
 			$2 = ""
 		} else {
 			sub(/=>/, "")
-			url = parse_url($1)
+			link = parse_link($1)
 			$1 = ""
 		}
-		printf("%s\n=>\t%s\n", $0, url)
+		printf("%s\n=>\t%s\n", $0, link)
 	}
 	next
 }
 
 # make nice bullet points
 /^\* / {
-	sub(/\*/, "•")
+	if (mono) sub(/\*/, "•")
 	print
 	next
 }
