@@ -42,14 +42,15 @@ function parseLink(link) {
 			link = parseLink($1)
 			$1 = ""
 		}
-		printf("%s\n=>\t%s\n", $0, link)
+		printf("%s\n→\t%s\n", $0, link)
 	}
 	next
 }
 
 # make nice bullet points
 /^\* / {
-	if (mono) sub(/\*/, "•")
+	if (!mono)
+		sub(/\*/, "•")
 	print
 	next
 }
