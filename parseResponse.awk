@@ -14,13 +14,13 @@ function pathForRelativeLink() {
 
 # trying to turn any partial link into a fully qualified gemini link
 function parseLink(link) {
-	if (link ~ /^[gemini|https?|gopher|mailto]:\/\/.*/) {
+	if (index(link, "://")) {
 		return link
 	} else if (link ~ /^\/\/.*.[a-zA-Z]\/.*/) {
 		return "gemini:" link
-	} else if (link ~ /^\/.*/) {
+	} else if (index(link, "/") == 1) {
 		return "gemini://" hostname link
-	} else if (!index(link, "/")) {
+	} else if (index(link, "/") > 1 || !index(link, "/")) {
 		return "gemini://" hostname pathForRelativeLink() link
 	} else { # generic catch-all for me to find any bugs that arise
 		return link
