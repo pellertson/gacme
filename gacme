@@ -4,7 +4,6 @@
 . $PLAN9/lib/acme.rc
 fullResponse=`{mktemp}
 
-
 # echo $response | winwrite body
 
 fn die {
@@ -13,17 +12,20 @@ fn die {
 }
 
 fn get {
-	openssl s_client -crlf -quiet -no_ssl3 -no_tls1 -no_tls1_1 -connect $1:$2 -servername $1
+	openssl s_client -crlf -quiet \
+	                 -no_ssl3 -no_tls1 -no_tls1_1 \
+	                 -connect $1:$2 -servername $1
 }
 
 fn parseResponse {
-	awk -v `{printf 'hostname=%s' $1} -v `{printf 'path=%s' $2} -f /usr/local/lib/parseResponse.awk $fullResponse
+	awk -v `{printf 'hostname=%s' $1} \
+	    -v `{printf 'path=%s' $2} \
+	    -f /usr/local/lib/parseResponse.awk $fullResponse
 }
 
 
 newwindow
 winname $1
-
 echo $1 | get $2 1965 > $fullResponse
 parseResponse $2 $3 | winwrite body
 

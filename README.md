@@ -19,8 +19,6 @@ by plan9port, so that makes the latter the only requirement.
 These are just two shell scripts in this project, so you can just copy
 them into your `$PATH`.
 
-The url is `git://dome.circumlunar.space/~parker/gacme.git`
-
 Finally, add the following to your plumber rules:
 
 ```
