@@ -16,8 +16,8 @@ by plan9port, so that makes the latter the only requirement.
 
 ## Install
 
-These are just two shell scripts in this project, so you can just copy
-them into your `$PATH`.
+Just run `sudo make` or copy the `gacme` and `parseResponse.awk` files
+to somewhere in your `$PATH`.
 
 Finally, add the following to your plumber rules:
 
