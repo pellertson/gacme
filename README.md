@@ -38,6 +38,4 @@ Licenced under the GNU GPL v3+
 * see about writing this in an actual programming language, possibly go
 
 ## BUGS
-* go to `gemini://gemini.conman.org/` to see this, but for some reason my home directory gets printed out on the page...
-	* probably to do with not handling text/gemini and text/plain differently
-* for the love of God, just go through the torture test
+* Some sites won't connect due to the TLS certificate generateed.  Openssl is a bitch when it comes to TOFU authentication.  And `gnutls-cli` doesn't seem to understand the meaning of "Trust On **First Use**."
