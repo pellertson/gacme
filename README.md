@@ -23,7 +23,7 @@ Finally, add the following to your plumber rules:
 
 ```
 type is text
-data matches 'gemini://([a-zA-Z0-9_\-.]+[.:][a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-]*)'
+data matches 'gemini://([a-zA-Z0-9_\-.]+[.:][a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-~?&]*)'
 plumb to web
 plumb start gacme $0 $1 $2
 ```
