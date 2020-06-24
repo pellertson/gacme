@@ -5,18 +5,22 @@ BEGIN {
 
 function pathForRelativeLink() {
 	str = ""
-	len = split(path, parts, "/")
-	for (i = 1; i < len; i++) {
-		str = str parts[i] "/"
+	if (path == "") {
+		return "/"
+	} else {
+		len = split(path, parts, "/")
+		for (i = 1; i < len; i++) {
+			str = str parts[i] "/"
+		}
+		return str
 	}
-	return str
 }
 
 # trying to turn any partial link into a fully qualified gemini link
 function parseLink(link) {
-	if (index(link, "://")) {
+	if (link ~ /(https?|gemini|gopher):\/\/.*/) {
 		return link
-	} else if (link ~ /^\/\/.*.[a-zA-Z]\/.*/) {
+	} else if (link ~ /^\/\/.*/) {
 		return "gemini:" link
 	} else if (index(link, "/") == 1) {
 		return "gemini://" hostname link
@@ -42,7 +46,7 @@ function parseLink(link) {
 			link = parseLink($1)
 			$1 = ""
 		}
-		printf("%s\n→\t%s\n", $0, link)
+		printf("%s\n⇒\t%s\n", $0, link)
 	}
 	next
 }
@@ -55,7 +59,7 @@ function parseLink(link) {
 	next
 }
 
-/```/ { (mono == 0) ? mono = 1 : mono = 0 }
+/^```/ { (mono == 0) ? mono = 1 : mono = 0 }
 
 # print the rest of the lines without any special formatting
 # not sure if we need this line but its here just incase
