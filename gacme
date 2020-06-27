@@ -4,13 +4,6 @@
 . $PLAN9/lib/acme.rc
 fullResponse=`{mktemp}
 
-# echo $response | winwrite body
-
-fn die {
-	rm $fullResponse
-	exit 1
-}
-
 fn get {
 	cmd='openssl s_client -crlf -quiet -no_ssl3 -no_tls1 -no_tls1_1 -connect $1:$2 -servername $1'
 	eval $cmd
