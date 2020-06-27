@@ -12,9 +12,8 @@ fn die {
 }
 
 fn get {
-	openssl s_client -crlf -quiet \
-	                 -no_ssl3 -no_tls1 -no_tls1_1 \
-	                 -connect $1:$2 -servername $1
+	cmd='openssl s_client -crlf -quiet -no_ssl3 -no_tls1 -no_tls1_1 -connect $1:$2 -servername $1'
+	eval $cmd
 }
 
 fn parseResponse {
