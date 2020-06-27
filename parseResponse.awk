@@ -16,6 +16,7 @@ function pathForRelativeLink() {
 	}
 }
 
+
 # trying to turn any partial link into a fully qualified gemini link
 function parseLink(link) {
 	if (link ~ /(https?|gemini|gopher):\/\/.*/) {
