@@ -16,17 +16,19 @@ by plan9port, so that makes the latter the only requirement.
 
 ## Install
 
-Just run `sudo make` or copy the `gacme` and `parseResponse.awk` files
-to somewhere in your `$PATH`.
+Just run `sudo make`.  I will possibly use `mk` in the future but it doesn't seem to be needed.
 
-Finally, add the following to your plumber rules:
+Finally, add the following to `$HOME/lib/plumbing`:
 
 ```
 type is text
-data matches 'gemini://([a-zA-Z0-9_\-.]+[.:][a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-~?&]*)'
+data matches 'gemini://([a-zA-Z0-9_\-.]+[.:][a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-.~?&\(\)+%:同體大悲]*)'
 plumb to web
 plumb start gacme $0 $1 $2
+
+include basic
 ```
+
 ## LICENSE
 
 Licenced under the GNU GPL v3+
