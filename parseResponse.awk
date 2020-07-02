@@ -32,7 +32,6 @@ function parseLink(link) {
 	}
 }
 
-# format the link lines to look a little bit nicer
 /^=>/ {
 	str = "=>"
 	if (mono) {
@@ -52,7 +51,6 @@ function parseLink(link) {
 	next
 }
 
-# make nice bullet points
 /^\* / {
 	if (!mono)
 		sub(/\*/, "•")
