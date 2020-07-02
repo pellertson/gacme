@@ -62,6 +62,21 @@ function parseLink(link) {
 
 /^```/ { (mono == 0) ? mono = 1 : mono = 0 }
 
-# print the rest of the lines without any special formatting
-# not sure if we need this line but its here just incase
-{ print($0) }
+{
+	if (mono) {
+		print($0)
+	} else {
+		split($0, words, " ")
+		line = words[1]
+		for (i = 2; i <= length(words); i++) {
+			word = words[i]
+			if (length(word) + length(line) > 70) {
+				printf("%s\n", line)
+				line = word
+			} else {
+				line = sprintf("%s %s", line, word)
+			}
+		}
+		print line
+	}
+}
