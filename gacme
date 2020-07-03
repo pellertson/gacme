@@ -10,15 +10,32 @@ fn get {
 }
 
 fn parseResponse {
-	awk -v `{printf 'hostname=%s' $1} \
-	    -v `{printf 'path=%s' $2} \
-	    -f /usr/local/lib/parseResponse.awk $fullResponse
+	head=`{sed 1q $fullResponse}
+	code=$head(1)
+	if (~ $"code 20) {
+		type=`{echo $"head | ssam -n 'x/[a-z]+\/[a-z]+/p'}
+
+		if (~ $type text/gemini) {
+			tail +2l $fullResponse | awk -v `{printf 'hostname=%s' $1} \
+			                             -v `{printf 'path=%s' $2} \
+			                             -f /usr/local/lib/parseResponse.awk
+		}
+		if (~ $type 'text/plain') {
+			tail +2l $fullResponse
+		}
+		if not {
+			echo "You downloaded an unsupported filetype.  Sorry about that"
+		}
+	}
+	if not {
+		cat $fullResponse
+	}
 }
 
 
+echo $1 | get $2 1965 > $fullResponse
 newwindow
 winname $1
-echo $1 | get $2 1965 > $fullResponse
 parseResponse $2 $3 | winwrite body
 
 winctl 'clean'
