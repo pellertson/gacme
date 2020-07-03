@@ -20,11 +20,8 @@ fn parseResponse {
 			                             -v `{printf 'path=%s' $2} \
 			                             -f /usr/local/lib/parseGeminiResponse.awk
 		}
-		if (~ $type 'text/plain') {
+		if (~ $type text/plain) {
 			tail +2l $fullResponse
-		}
-		if not {
-			echo "You downloaded an unsupported filetype.  Sorry about that"
 		}
 	}
 	if not {
@@ -32,8 +29,13 @@ fn parseResponse {
 	}
 }
 
+if (~ $#* 4) {
+	echo $1 | get $2 $4 | tr -d \15 > $fullResponse
+}
+if not {
+	echo $1 | get $2 1965 | tr -d \15 > $fullResponse
+}
 
-echo $1 | get $2 1965 | tr -d \15 > $fullResponse
 newwindow
 winname $1
 parseResponse $2 $3 | winwrite body
