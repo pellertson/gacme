@@ -22,9 +22,14 @@ Finally, add the following to `$HOME/lib/plumbing`:
 
 ```
 type is text
-data matches 'gemini://([a-zA-Z0-9_\-.]+[.:][a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-.~?&\(\)+%:同體大悲]*)'
+data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-.~?&\(\)+%:同體大悲]*)'
 plumb to web
 plumb start gacme $0 $1 $2
+
+type is text
+data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)(:[0-9]+)(/?[a-zA-Z0-9/_\-.~?&\(\)+%:同體大悲]*)'
+plumb to web
+plumb start gacme $0 $1 $3 $2
 
 include basic
 ```
@@ -40,4 +45,6 @@ Licenced under the GNU GPL v3+
 * see about writing this in an actual programming language, possibly go
 
 ## BUGS
-* Some sites won't connect due to the TLS certificate generateed.  Openssl is a bitch when it comes to TOFU authentication.  And `gnutls-cli` doesn't seem to understand the meaning of "Trust On **First Use**."
+* Some sites won't connect due to the TLS certificate generateed.  Openssl
+  is a bitch when it comes to TOFU authentication.  And `gnutls-cli` doesn't
+  seem to understand the meaning of "Trust On **First Use**."
