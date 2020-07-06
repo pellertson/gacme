@@ -73,6 +73,7 @@ function printFormatedLine(line, pre) {
 				line = sprintf("%s %s", line, word)
 			}
 		}
+		print line
 	} else print
 	next
 }
