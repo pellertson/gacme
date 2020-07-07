@@ -4,6 +4,8 @@
 . $PLAN9/lib/acme.rc
 fullResponse=`{mktemp}
 
+GACME_WIDTH=70
+
 fn get {
 	cmd='openssl s_client -crlf -quiet -no_ssl3 -no_tls1 -no_tls1_1 -connect $1:$2 -servername $1'
 	eval $cmd
@@ -18,6 +20,7 @@ fn parseResponse {
 		if (~ $type text/gemini) {
 			tail +2l $fullResponse | awk -v `{printf 'hostname=%s' $1} \
 			                             -v `{printf 'path=%s' $2} \
+			                             -v `{printf 'width=%s' $GACME_WIDTH} \
 			                             -f /usr/local/lib/parseGeminiResponse.awk
 		}
 		if (~ $type text/plain) {

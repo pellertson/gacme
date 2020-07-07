@@ -66,7 +66,7 @@ function printFormatedLine(line, pre) {
 		line = words[1]
 		for (i = 2; i <= length(words); i++) {
 			word = words[i]
-			if (length(word) + length(line) > 80) {
+			if (length(word) + length(line) > width) {
 				printf("%s\n", line)
 				line = word
 			} else {
@@ -78,17 +78,21 @@ function printFormatedLine(line, pre) {
 	next
 }
 
-/^```/ { (mono == 0) ? mono = 1 : mono = 0 }
+/^```/ {
+	(mono == 0) ? mono = 1 : mono = 0
+	print("```")
+	next
+}
 
 {
 	if (mono) {
-		print($0)
+		print
 	} else {
 		split($0, words, " ")
 		line = words[1]
 		for (i = 2; i <= length(words); i++) {
 			word = words[i]
-			if (length(word) + length(line) > 80) {
+			if (length(word) + length(line) > width) {
 				printf("%s\n", line)
 				line = word
 			} else {
