@@ -32,12 +32,24 @@ function parseLink(link) {
 	}
 }
 
-function foldLine(line, pre) {
-
-}
-
 function printFormatedLine(line, pre) {
-	print line pre
+	if (pre == "") {
+		formatedLine = line[1]
+	} else {
+		formatedLine = pre
+	}
+
+	for (i = 2; i <= length(line); i++) {
+		word = line[i]
+		if (length(word) + length(formatedLine) > width) {
+			printf("%s\n", formatedLine)
+			formatedLine = word
+		} else {
+			formatedLine = sprintf("%s %s", formatedLine, word)
+		}
+	}
+	print(formatedLine)
+
 }
 
 /^=>/ {
@@ -63,17 +75,7 @@ function printFormatedLine(line, pre) {
 	if (!mono) {
 		sub(/\*/, "•")
 		split($0, words, " ")
-		line = words[1]
-		for (i = 2; i <= length(words); i++) {
-			word = words[i]
-			if (length(word) + length(line) > width) {
-				printf("%s\n", line)
-				line = word
-			} else {
-				line = sprintf("%s %s", line, word)
-			}
-		}
-		print line
+		printFormatedLine(words, "•")
 	} else print
 	next
 }
@@ -89,16 +91,6 @@ function printFormatedLine(line, pre) {
 		print
 	} else {
 		split($0, words, " ")
-		line = words[1]
-		for (i = 2; i <= length(words); i++) {
-			word = words[i]
-			if (length(word) + length(line) > width) {
-				printf("%s\n", line)
-				line = word
-			} else {
-				line = sprintf("%s %s", line, word)
-			}
-		}
-		print line
+		printFormatedLine(words, "")
 	}
 }
