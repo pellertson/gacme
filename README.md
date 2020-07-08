@@ -42,9 +42,14 @@ Licenced under the GNU GPL v3+
 
 * do proper TOFU authentication
 * publishing your own certs for servers that use them
-* see about writing this in an actual programming language, possibly go
 
 ## BUGS
+
 * Some sites won't connect due to the TLS certificate generateed.  Openssl
   is a bitch when it comes to TOFU authentication.  And `gnutls-cli` doesn't
   seem to understand the meaning of "Trust On **First Use**."
+
+## CONTRIBUTING
+
+My email is in the git logs.  Contact me there for any questions or contributions
+that you might have.
