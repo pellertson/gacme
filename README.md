@@ -21,13 +21,27 @@ Just run `sudo make`.  I will possibly use `mk` in the future but it doesn't see
 Finally, add the following to `$HOME/lib/plumbing`:
 
 ```
+# gemini links without a path or port
 type is text
-data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)(/?[a-zA-Z0-9/_\-.~?&\(\)+%:同體大悲]*)'
+data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)/?'
+plumb to web
+plumb start gacme $0'/' $1 '/'
+
+# gemini links without a path but with a port
+type is text
+data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+):([0-9]+)/?'
+plumb to web
+plumb start gacme $0'/' $1 '/' $2
+
+# gemini links with a path but no port
+type is text
+data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)/(.*)'
 plumb to web
 plumb start gacme $0 $1 $2
 
+# gemini links with a path and a port
 type is text
-data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)(:[0-9]+)(/?[a-zA-Z0-9/_\-.~?&\(\)+%:同體大悲]*)'
+data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+):([0-9]+)/(.*)'
 plumb to web
 plumb start gacme $0 $1 $3 $2
 
