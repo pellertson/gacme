@@ -1,9 +1,5 @@
 # A Gemini Client for Acme
 
-I use [the plan9port version of acme](https://9fans.github.io/plan9port/)
-as my regular text editor.  Though just like emacs, acme can be much more
-than an editor.
-
 [Gemini](https://gemini.circumlunar.space) is an alternative to gopher
 and the web, taking the best of both and putting it into one protocol.
 
