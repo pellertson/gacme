@@ -35,7 +35,7 @@ fn parseResponse {
 			tail +2l $fullResponse | awk -v `{printf 'hostname=%s' $1} \
 			                             -v `{printf 'path=%s' $2} \
 			                             -v `{printf 'width=%s' $GACME_WIDTH} \
-			                             -f /usr/local/lib/parseGeminiResponse.awk
+			                             -f INSTALL_PATH/lib/parseGeminiResponse.awk
 		}
 		if (~ $type text/plain) {
 			tail +2l $fullResponse
