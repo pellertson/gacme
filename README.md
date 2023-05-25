@@ -22,13 +22,13 @@ Finally, add the following to `$HOME/lib/plumbing`:
 type is text
 data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+)/?'
 plumb to web
-plumb start gacme $0'/' $1 '/'
+plumb start gacme $0 $1 '/'
 
 # gemini links without a path but with a port
 type is text
 data matches 'gemini://([a-zA-Z0-9_\-.]+[a-zA-Z0-9_@\-]+):([0-9]+)/?'
 plumb to web
-plumb start gacme $0'/' $1 '/' $2
+plumb start gacme $0 $1 '/' $2
 
 # gemini links with a path but no port
 type is text

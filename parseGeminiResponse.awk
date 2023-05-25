@@ -34,7 +34,7 @@ function pathForRelativeLink() {
 
 # trying to turn any partial link into a fully qualified gemini link
 function parseLink(link) {
-	if (link ~ /(https?|gemini|gopher|mailto|finger):\/\/.*/) {
+	if (link ~ /(https?|gemini|gopher|finger):\/\/.*/ || link ~ /mailto:/) {
 		return link
 	} else if (link ~ /^\/\/.*/) {
 		return "gemini:" link
