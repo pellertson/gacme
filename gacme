@@ -28,20 +28,24 @@ fn get {
 fn parseResponse {
 	head=`{sed 1q $fullResponse}
 	code=$head(1)
-	if (~ $"code 20) {
-		type=`{echo $"head | ssam -n 'x/[a-z]+\/[a-z]+/p'}
+	switch ($"code) {
+	case 20
+		{
+			type=`{echo $"head | ssam -n 'x/[a-z]+\/[a-z]+/p'}
 
-		if (~ $type text/gemini) {
+			if (~ $type text/gemini) {
 			tail +2l $fullResponse | awk -v `{printf 'hostname=%s' $1} \
-			                             -v `{printf 'path=%s' $2} \
-			                             -v `{printf 'width=%s' $GACME_WIDTH} \
-			                             -f INSTALL_PATH/lib/parseGeminiResponse.awk
+											-v `{printf 'path=%s' $2} \
+											-v `{printf 'width=%s' $GACME_WIDTH} \
+											-f INSTALL_PATH/lib/parseGeminiResponse.awk
+			}
+			if (~ $type text/plain) {
+				tail +2l $fullResponse
+			}
 		}
-		if (~ $type text/plain) {
-			tail +2l $fullResponse
-		}
-	}
-	if not {
+	case 31
+		echo $head | sed 's/31 /Redirect: go to /'
+	case *
 		cat $fullResponse
 	}
 }
