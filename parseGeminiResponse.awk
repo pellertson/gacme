@@ -41,7 +41,7 @@ function parseLink(link) {
 	} else if (index(link, "/") == 1) {
 		return "gemini://" hostname link
 	} else if (index(link, "/") > 1 || !index(link, "/")) {
-		return "gemini://" hostname pathForRelativeLink() link
+		return "gemini://" hostname "/" pathForRelativeLink() link
 	} else { # generic catch-all for me to find any bugs that arise
 		return link
 	}
