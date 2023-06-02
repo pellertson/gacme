@@ -15,13 +15,12 @@
 
 BEGIN {
 	FS = " "
-	mono = 0
 }
 
 function pathForRelativeLink() {
 	str = ""
-	if (path == "") {
-		return "/"
+	if (path == "" || path == "/") {
+		return ""
 	} else {
 		len = split(path, parts, "/")
 		for (i = 1; i < len; i++) {
@@ -47,65 +46,11 @@ function parseLink(link) {
 	}
 }
 
-function printFormatedLine(line, pre) {
-	if (pre == "") {
-		formatedLine = line[1]
-	} else {
-		formatedLine = pre
-	}
-
-	for (i = 2; i <= length(line); i++) {
-		word = line[i]
-		if (length(word) + length(formatedLine) > width) {
-			printf("%s\n", formatedLine)
-			formatedLine = word
-		} else {
-			formatedLine = sprintf("%s %s", formatedLine, word)
-		}
-	}
-	print(formatedLine)
-
-}
-
 /^=>/ {
-	str = "=>"
-	if (mono) {
-		print
-	} else {
-		if ($1 == str) {
-			$1 = ""
-			link = parseLink($2)
-			$2 = ""
-		} else {
-			sub(/=>/, "")
-			link = parseLink($1)
-			$1 = ""
-		}
-		printf("\n⇒%s\n⇒\t%s\n", $0, link)
-	}
+	link = parseLink($2)
+	sub($2, "")
+	printf $0 "\n\t\t" link "\n\n"
 	next
 }
 
-/^\* / {
-	if (!mono) {
-		sub(/\*/, "•")
-		split($0, words, " ")
-		printFormatedLine(words, "•")
-	} else print
-	next
-}
-
-/^```/ {
-	(mono == 0) ? mono = 1 : mono = 0
-	print("```")
-	next
-}
-
-{
-	if (mono) {
-		print
-	} else {
-		split($0, words, " ")
-		printFormatedLine(words, "")
-	}
-}
+{print}
