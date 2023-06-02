@@ -17,6 +17,7 @@
 
 . $PLAN9/lib/acme.rc
 fullResponse=`{mktemp}
+binarydir=`{mktemp -d}
 
 GACME_WIDTH=70
 
@@ -32,15 +33,26 @@ fn parseResponse {
 	case 20
 		{
 			type=`{echo $"head | ssam -n 'x/[a-z]+\/[a-z]+/p'}
+			echo $type > /tmp/foo
 
-			if (~ $type text/gemini) {
-			tail +2l $fullResponse | awk -v `{printf 'hostname=%s' $1} \
-											-v `{printf 'path=%s' $2} \
-											-v `{printf 'width=%s' $GACME_WIDTH} \
-											-f INSTALL_PATH/lib/parseGeminiResponse.awk
-			}
-			if (~ $type text/plain) {
+			switch($type) {
+			case text/gemini
+				{
+					cat $fullResponse | tail +2l \
+											| awk -v `{printf 'hostname=%s' $1} \
+												-v `{printf 'path=%s' $2} \
+												-v `{printf 'width=%s' $GACME_WIDTH} \
+												-f INSTALL_PATH/lib/parseGeminiResponse.awk
+				}
+			case text/plain
 				tail +2l $fullResponse
+			case *
+				{
+					file=$binarydir/`{basename $2}
+					tail +2l $fullResponse > $file
+					plumb $file > /dev/null
+					echo $type saved in $file
+				}
 			}
 		}
 	case 31
@@ -51,10 +63,10 @@ fn parseResponse {
 }
 
 if (~ $#* 4) {
-	echo $1 | get $2 $4 | tr -d \15 > $fullResponse
+	echo $1 | get $2 $4 > $fullResponse
 }
 if not {
-	echo $1 | get $2 1965 | tr -d \15 > $fullResponse
+	echo $1 | get $2 1965 > $fullResponse
 }
 
 newwindow
