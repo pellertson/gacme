@@ -49,7 +49,7 @@ function parseLink(link) {
 /^=>/ {
 	link = parseLink($2)
 	sub($2, "")
-	printf $0 "\n\t\t" link "\n\n"
+	printf $0 "\n" link "\n\n"
 	next
 }
 
