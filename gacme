@@ -33,7 +33,6 @@ fn parseResponse {
 	case 20
 		{
 			type=`{echo $"head | ssam -n 'x/[a-z]+\/[a-z]+/p'}
-			echo $type > /tmp/foo
 
 			switch($type) {
 			case text/gemini
@@ -42,7 +41,8 @@ fn parseResponse {
 											| awk -v `{printf 'hostname=%s' $1} \
 												-v `{printf 'path=%s' $2} \
 												-v `{printf 'width=%s' $GACME_WIDTH} \
-												-f INSTALL_PATH/lib/parseGeminiResponse.awk
+												-f INSTALL_PATH/lib/parseGeminiResponse.awk \
+												| fold -s
 				}
 			case text/plain
 				tail +2l $fullResponse
