@@ -32,7 +32,7 @@ fn parseResponse {
 	switch ($"code) {
 	case 20
 		{
-			type=`{echo $"head | ssam -n 'x/[a-z]+\/[a-z]+/p'}
+			type=`{echo $"head | sed -E 's|[0-9]+\s([a-z]+/[a-z]+).*|\1|'}
 
 			switch($type) {
 			case text/gemini
