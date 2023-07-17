@@ -56,7 +56,7 @@ fn parseResponse {
 			}
 		}
 	case 31
-		echo $head | sed 's/31 /Redirect: go to /'
+		echo $head | sed -E 's|31 (gemini://'$1')?(.*)|Redirect: go to gemini://'$1'\2|'
 	case *
 		cat $fullResponse
 	}
